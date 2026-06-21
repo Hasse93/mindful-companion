@@ -1,0 +1,23 @@
+# Production runtime — torch-free. Emotion + sentiment are served via ONNX
+# Runtime (see app/ml/onnx_infer.py), so we drop torch + the training stack.
+# This keeps the deployed image small (hundreds of MB lighter than torch).
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+pydantic-settings==2.7.1
+
+# Database
+sqlmodel==0.0.22
+psycopg[binary]==3.2.3
+
+# Auth
+pyjwt==2.10.1
+bcrypt==4.2.1
+
+# LLM
+anthropic==0.42.0
+
+# ML serving (no torch): ONNX Runtime + the transformers tokenizer only
+onnxruntime==1.20.1
+transformers==4.47.1
+numpy==2.2.1

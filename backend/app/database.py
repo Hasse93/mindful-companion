@@ -9,10 +9,23 @@ from app.config import get_settings
 
 settings = get_settings()
 
+
+def _normalize_url(url: str) -> str:
+    # Managed Postgres (Render/Railway/Heroku) hands out `postgres://` /
+    # `postgresql://` URLs; pin them to the psycopg3 driver we install.
+    if url.startswith("postgres://"):
+        return url.replace("postgres://", "postgresql+psycopg://", 1)
+    if url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgresql+psycopg://", 1)
+    return url
+
+
+_database_url = _normalize_url(settings.database_url)
+
 # SQLite (handy for keyless local dev) needs check_same_thread disabled so the
 # chat SSE generator can open a session on a worker thread. Postgres uses
 # pool_pre_ping to survive dropped connections.
-_is_sqlite = settings.database_url.startswith("sqlite")
+_is_sqlite = _database_url.startswith("sqlite")
 _engine_kwargs: dict = (
     {"connect_args": {"check_same_thread": False}}
     if _is_sqlite
@@ -20,7 +33,7 @@ _engine_kwargs: dict = (
 )
 
 # echo=False keeps logs clean; flip to True when debugging SQL.
-engine = create_engine(settings.database_url, echo=False, **_engine_kwargs)
+engine = create_engine(_database_url, echo=False, **_engine_kwargs)
 
 
 def init_db() -> None:

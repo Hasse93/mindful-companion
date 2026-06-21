@@ -1,0 +1,31 @@
+# Render blueprint: backend API (Docker) + managed Postgres.
+# Deploy: push to GitHub, then New > Blueprint in the Render dashboard.
+# The frontend deploys separately to Vercel (see README "Deployment").
+services:
+  - type: web
+    name: mindful-companion-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false          # set in the dashboard (secret)
+      - key: CORS_ORIGINS
+        sync: false          # set to your Vercel URL
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FAKE_AI
+        value: "false"
+      - key: EMOTION_MODEL
+        value: ./models/emotion-onnx
+      - key: SENTIMENT_MODEL
+        value: ./models/sentiment-onnx
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mindful-db
+          property: connectionString
+
+databases:
+  - name: mindful-db
+    plan: free
