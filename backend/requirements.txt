@@ -1,0 +1,30 @@
+# --- Web framework ---
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+pydantic-settings==2.7.1
+
+# --- Database ---
+sqlmodel==0.0.22
+psycopg[binary]==3.2.3
+
+# --- Auth ---
+pyjwt==2.10.1
+bcrypt==4.2.1
+
+# --- LLM ---
+anthropic==0.42.0
+
+# --- ML / NLP ---
+transformers==4.47.1
+torch==2.5.1
+# Optional, for the fine-tuning + ONNX export workflow (ml_training/):
+# datasets==3.2.0
+# scikit-learn==1.6.0
+# evaluate==0.4.3
+# optimum[onnxruntime]==1.23.3
+# mlflow==2.19.0
+
+# --- Tests ---
+pytest==8.3.4
+httpx==0.28.1

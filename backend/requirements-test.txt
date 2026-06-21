@@ -1,0 +1,12 @@
+# Minimal deps to run the test suite under FAKE_AI=true.
+# The ML/LLM libraries (torch, transformers, anthropic) are intentionally NOT
+# here: they are lazily imported and short-circuited by FAKE_AI, so CI stays
+# fast and needs no model downloads or API keys.
+fastapi==0.115.6
+pydantic==2.10.4
+pydantic-settings==2.7.1
+sqlmodel==0.0.22
+pyjwt==2.10.1
+bcrypt==4.2.1
+httpx==0.28.1
+pytest==8.3.4
