@@ -10,7 +10,7 @@ from sqlmodel import Session, select
 
 from app.api.deps import current_user
 from app.database import get_session
-from app.llm import claude_client
+from app.llm import provider as llm
 from app.llm.prompts import weekly_report_prompt
 from app.models import MoodEntry
 from app.schemas import EmotionCount, WeeklyReport
@@ -50,7 +50,7 @@ def weekly(
         "positive_sentiment_ratio": pos_ratio,
         "emotion_distribution": {k: v for k, v in emo_counter.items()},
     }
-    summary = claude_client.complete(weekly_report_prompt(json.dumps(stats, indent=2)))
+    summary = llm.complete(weekly_report_prompt(json.dumps(stats, indent=2)))
 
     return WeeklyReport(
         period_start=start,

@@ -18,7 +18,7 @@ from sqlmodel import Session, select
 
 from app.api.deps import current_user
 from app.database import get_session
-from app.llm import claude_client
+from app.llm import provider as llm
 from app.ml import crisis_triage, emotion
 from app.models import ChatMessage
 from app.schemas import ChatRequest
@@ -74,7 +74,7 @@ def chat(
         })
 
         chunks: list[str] = []
-        for chunk in claude_client.stream_reply(history, is_crisis=triage.is_crisis):
+        for chunk in llm.stream_reply(history, is_crisis=triage.is_crisis):
             chunks.append(chunk)
             yield _sse("message", {"text": chunk})
 

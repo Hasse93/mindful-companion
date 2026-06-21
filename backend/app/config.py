@@ -17,11 +17,19 @@ class Settings(BaseSettings):
     # --- Database ---
     database_url: str = "postgresql+psycopg://mindful:mindful@localhost:5432/mindful"
 
-    # --- Claude / Anthropic ---
+    # --- LLM provider ---
+    # "gemini" (free tier, default) or "claude".
+    llm_provider: str = "gemini"
+
+    # Claude / Anthropic
     anthropic_api_key: str = ""
     chat_model: str = "claude-haiku-4-5-20251001"   # cheap default for dev
     report_model: str = "claude-haiku-4-5-20251001"
     # Set CHAT_MODEL=claude-opus-4-8 in .env for the polished demo.
+
+    # Google Gemini
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-2.5-flash"
 
     # --- ML models (Hugging Face hub ids) ---
     emotion_model: str = "j-hartmann/emotion-english-distilroberta-base"
