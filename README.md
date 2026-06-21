@@ -8,6 +8,14 @@ portfolio piece.
 > not therapy, diagnosis, or a crisis service. It always directs users in distress to
 > professional crisis resources.
 
+## Highlights
+
+- **Full-stack:** FastAPI (async) backend + Next.js 16 / React 19 frontend, JWT auth with per-user data isolation.
+- **Real ML, trained from scratch:** fine-tuned DistilBERT on GoEmotions (**test macro-F1 0.63 / accuracy 0.70**, 7 Ekman emotions), exported to **ONNX** for ~10 ms inference.
+- **Safety-first design:** Claude chat behind a non-clinical system prompt + a high-recall crisis-triage layer that surfaces professional resources — never diagnoses.
+- **Polished UX:** "Calm Aurora" glassmorphic UI with dark mode, animations, mood tracking, journaling, breathing/grounding tools, and weekly insight reports.
+- **Engineering discipline:** 34 backend tests, typed end-to-end, GitHub Actions CI, Docker Compose.
+
 ---
 
 ## What it does
@@ -120,6 +128,26 @@ TODO: generate the client from the backend OpenAPI spec so types never drift.
 - Crisis triage is **high-recall by design** — it prefers false alarms (an extra help banner) over misses.
 - Crisis resources live in code, not the database, so they can never be empty when needed.
 - Mental-health text is sensitive: keep `.env` secret, encrypt at rest in production, and offer data deletion.
+
+## Deployment
+
+The app is structured to deploy as two services:
+
+**Frontend → Vercel**
+```bash
+cd frontend
+vercel --prod      # set NEXT_PUBLIC_API_URL to your backend's public URL
+```
+
+**Backend → Render / Railway / Fly.io** (the `backend/Dockerfile` is ready to use)
+- Set env vars: `ANTHROPIC_API_KEY`, `DATABASE_URL` (a managed Postgres), `CORS_ORIGINS`
+  (your Vercel URL), `JWT_SECRET`, `EMOTION_MODEL=./models/emotion-onnx`.
+- For a lean image, serve emotion inference with `onnxruntime` only and drop the
+  heavy `torch`/`transformers` training deps from the runtime image.
+- Switch `DATABASE_URL` from the local SQLite default to the managed Postgres.
+
+> The repo ships the trained ONNX model under `backend/models/` (gitignored by
+> default for size); bake it into the image or pull it from object storage at boot.
 
 ## Roadmap
 
