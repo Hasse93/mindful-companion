@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Hasse93/mindful-companion/actions/workflows/ci.yml/badge.svg)](https://github.com/Hasse93/mindful-companion/actions/workflows/ci.yml)
 
-**[🔴 Live demo](https://mindful-companion-sarmini92-5868s-projects.vercel.app)** · **[API docs](https://hasse93-mindful-companion-api.hf.space/docs)**
+**[🔴 Live demo](https://mindful-wellness-app.vercel.app)** · **[API docs](https://hasse93-mindful-companion-api.hf.space/docs)**
 
 A full-stack **mental-wellness companion** that combines a safety-aligned LLM chat
 experience with custom NLP models for mood insight. Built as a software-engineering
