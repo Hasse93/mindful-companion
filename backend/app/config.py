@@ -44,6 +44,9 @@ class Settings(BaseSettings):
 
     # --- App ---
     cors_origins: str = "http://localhost:3000"
+    # Optional regex to allow a family of origins (e.g. all Vercel preview +
+    # production URLs for the project). Empty = disabled.
+    cors_origin_regex: str = ""
     # When true, ML + LLM calls return deterministic stubs (used by tests and
     # for booting the API with no model downloads / no API key).
     fake_ai: bool = False
