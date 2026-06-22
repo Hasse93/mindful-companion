@@ -14,10 +14,11 @@ backend/.env
 # Local SQLite dev DB
 *.db
 
-# ML artifacts
-models/
-*.onnx
+# ML artifacts. Commit the small quantized ONNX models (≈64 MB) so the app
+# deploys from the repo; ignore the large FP32 training output + experiment logs.
+backend/models/emotion/
 mlruns/
+*.local
 
 # Node / Next.js
 node_modules/
