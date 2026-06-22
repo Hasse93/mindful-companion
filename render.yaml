@@ -9,8 +9,12 @@ services:
     dockerContext: ./backend
     healthCheckPath: /health
     envVars:
-      - key: ANTHROPIC_API_KEY
-        sync: false          # set in the dashboard (secret)
+      - key: LLM_PROVIDER
+        value: gemini
+      - key: GEMINI_API_KEY
+        sync: false          # paste your Gemini key in the dashboard (secret)
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
       - key: CORS_ORIGINS
         sync: false          # set to your Vercel URL
       - key: JWT_SECRET
