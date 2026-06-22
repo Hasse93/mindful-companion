@@ -3,7 +3,7 @@
 # This keeps the deployed image small (hundreds of MB lighter than torch).
 fastapi==0.115.6
 uvicorn[standard]==0.34.0
-pydantic==2.10.4
+pydantic>=2.12.5,<3
 pydantic-settings==2.7.1
 
 # Database
