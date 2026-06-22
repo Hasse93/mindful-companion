@@ -1,8 +1,15 @@
 # Mindful Companion 🌿
 
+[![CI](https://github.com/Hasse93/mindful-companion/actions/workflows/ci.yml/badge.svg)](https://github.com/Hasse93/mindful-companion/actions/workflows/ci.yml)
+
+**[🔴 Live demo](https://mindful-companion-sarmini92-5868s-projects.vercel.app)** · **[API docs](https://hasse93-mindful-companion-api.hf.space/docs)**
+
 A full-stack **mental-wellness companion** that combines a safety-aligned LLM chat
 experience with custom NLP models for mood insight. Built as a software-engineering
 portfolio piece.
+
+> **Try it instantly** — log in with the demo account **`demo@mindful.app`** / **`demopass123`**,
+> or create your own. (The backend sleeps after inactivity, so the first load may take ~30s to wake.)
 
 > ⚠️ **Not a medical device.** This project is a supportive journaling/wellness tool,
 > not therapy, diagnosis, or a crisis service. It always directs users in distress to
