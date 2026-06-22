@@ -41,6 +41,8 @@ class Settings(BaseSettings):
     jwt_secret: str = "dev-only-change-me-in-production"
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 60 * 24 * 7  # one week
+    # Shared read-only demo account: reads allowed, writes blocked.
+    demo_email: str = "demo@mindful.app"
 
     # --- App ---
     cors_origins: str = "http://localhost:3000"

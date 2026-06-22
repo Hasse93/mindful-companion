@@ -6,6 +6,7 @@ from sqlmodel import Session, select
 
 from app.api.analyze import run_pipeline
 from app.api.deps import current_user
+from app.auth import require_writable
 from app.database import get_session
 from app.models import JournalEntry
 from app.schemas import JournalCreate, JournalRead
@@ -16,7 +17,7 @@ router = APIRouter(prefix="/journal", tags=["journal"])
 @router.post("", response_model=JournalRead, status_code=201)
 def create_entry(
     body: JournalCreate,
-    user_id: str = Depends(current_user),
+    user_id: str = Depends(require_writable),
     session: Session = Depends(get_session),
 ) -> JournalEntry:
     entry = JournalEntry(

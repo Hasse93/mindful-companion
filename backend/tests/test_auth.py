@@ -46,6 +46,27 @@ def test_invalid_token_rejected(anon_client):
     assert r.status_code == 401
 
 
+def test_demo_account_is_read_only(anon_client):
+    anon_client.post("/auth/register", json={"email": "demo@mindful.app", "password": "demopass123"})
+    token = anon_client.post(
+        "/auth/login", json={"email": "demo@mindful.app", "password": "demopass123"}
+    ).json()["access_token"]
+    h = {"Authorization": f"Bearer {token}"}
+
+    # writes are blocked (403)
+    assert anon_client.post("/mood", json={"mood_score": 4}, headers=h).status_code == 403
+    assert anon_client.post(
+        "/journal", json={"kind": "journal", "content": "x"}, headers=h
+    ).status_code == 403
+
+    # reads are allowed
+    assert anon_client.get("/mood", headers=h).status_code == 200
+
+    # chat works but persists nothing
+    assert anon_client.post("/chat", json={"message": "hello"}, headers=h).status_code == 200
+    assert anon_client.get("/mood", headers=h).json() == []
+
+
 def test_authenticated_user_sees_only_their_data(client, anon_client):
     # `client` (test@example.com) creates a mood entry.
     client.post("/mood", json={"mood_score": 4})

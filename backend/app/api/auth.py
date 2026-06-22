@@ -39,4 +39,4 @@ def login(
         raise HTTPException(
             status.HTTP_401_UNAUTHORIZED, "Incorrect email or password"
         )
-    return TokenResponse(access_token=create_access_token(str(user.id)))
+    return TokenResponse(access_token=create_access_token(str(user.id), user.email))
