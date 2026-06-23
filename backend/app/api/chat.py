@@ -24,6 +24,7 @@ from app.database import get_session
 from app.llm import provider as llm
 from app.ml import crisis_triage, emotion
 from app.models import ChatMessage
+from app.ratelimit import rate_limit
 from app.schemas import ChatRequest
 
 router = APIRouter(prefix="/chat", tags=["chat"])
@@ -34,7 +35,7 @@ def _sse(event: str, data: dict | str) -> str:
     return f"event: {event}\ndata: {payload}\n\n"
 
 
-@router.post("")
+@router.post("", dependencies=[Depends(rate_limit("15/minute"))])
 def chat(
     body: ChatRequest,
     auth: AuthUser = Depends(current_auth),

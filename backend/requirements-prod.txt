@@ -22,3 +22,6 @@ anthropic==0.42.0
 onnxruntime==1.20.1
 transformers==4.47.1
 numpy==2.2.1
+
+# Rate limiting
+limits==5.8.0

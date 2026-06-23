@@ -46,6 +46,21 @@ def test_invalid_token_rejected(anon_client):
     assert r.status_code == 401
 
 
+def test_rate_limit_blocks_excess_logins(anon_client, monkeypatch):
+    # Rate limiting is off in tests by default; enable it just for this one.
+    from app.config import get_settings
+
+    monkeypatch.setattr(get_settings(), "rate_limit_enabled", True)
+    codes = [
+        anon_client.post(
+            "/auth/login", json={"email": "nobody@example.com", "password": "whatever1"}
+        ).status_code
+        for _ in range(12)
+    ]
+    assert 401 in codes        # early attempts processed (wrong credentials)
+    assert codes.count(429) >= 1  # the 10/min limit kicks in
+
+
 def test_demo_account_is_read_only(anon_client):
     anon_client.post("/auth/register", json={"email": "demo@mindful.app", "password": "demopass123"})
     token = anon_client.post(

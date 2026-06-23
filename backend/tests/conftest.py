@@ -5,6 +5,7 @@ import os
 
 os.environ["FAKE_AI"] = "true"
 os.environ["DATABASE_URL"] = "sqlite://"
+os.environ["RATE_LIMIT_ENABLED"] = "false"  # don't throttle the test suite
 
 import pytest
 from fastapi.testclient import TestClient

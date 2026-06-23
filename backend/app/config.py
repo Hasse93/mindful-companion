@@ -44,6 +44,9 @@ class Settings(BaseSettings):
     # Shared read-only demo account: reads allowed, writes blocked.
     demo_email: str = "demo@mindful.app"
 
+    # --- Rate limiting ---
+    rate_limit_enabled: bool = True
+
     # --- App ---
     cors_origins: str = "http://localhost:3000"
     # Optional regex to allow a family of origins (e.g. all Vercel preview +

@@ -7,12 +7,18 @@ from sqlmodel import Session, select
 from app.auth import create_access_token, hash_password, verify_password
 from app.database import get_session
 from app.models import User
+from app.ratelimit import rate_limit
 from app.schemas import LoginRequest, RegisterRequest, TokenResponse, UserRead
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
-@router.post("/register", response_model=UserRead, status_code=201)
+@router.post(
+    "/register",
+    response_model=UserRead,
+    status_code=201,
+    dependencies=[Depends(rate_limit("5/hour"))],
+)
 def register(
     body: RegisterRequest,
     session: Session = Depends(get_session),
@@ -28,7 +34,11 @@ def register(
     return user
 
 
-@router.post("/login", response_model=TokenResponse)
+@router.post(
+    "/login",
+    response_model=TokenResponse,
+    dependencies=[Depends(rate_limit("10/minute"))],
+)
 def login(
     body: LoginRequest,
     session: Session = Depends(get_session),
